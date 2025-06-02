@@ -7,10 +7,7 @@ import os
 import random
 import logging
 
-logging.basicConfig(
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "7772549891:AAGDgrLy4GAa17gr2-4xa9pxWVEj8WEzrJg")
 user_data = {}
@@ -89,7 +86,9 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     title, url = line.strip().rsplit(":", 1)
                     cname, curl = info['credit']
                     msg = f"""📝<b>Title Name ➤</b> {title}
+
 📚<b>Batch Name ➤</b> {info['batch_name']}
+
 📥 <b>Extracted By ➤</b> <a href="{curl}">{cname}</a>"""
                     await update.message.reply_text(msg, parse_mode=ParseMode.HTML)
                     await asyncio.sleep(random.uniform(2, 3))
