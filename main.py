@@ -14,7 +14,7 @@ logging.basicConfig(
 )
 
 # Bot Token from environment variable or hardcode (better to use env var for Render)
-BOT_TOKEN = os.getenv("BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "7772549891:AAGDgrLy4GAa17gr2-4xa9pxWVEj8WEzrJg")
 
 # Dictionary to store user data
 user_data = {}
@@ -104,7 +104,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         if user_info.get('credit') is None:
             if text == '3':
-                credit_name = "CA Inter X"
+                credit_name = "𝐂𝐀 𝐈𝐧𝐭𝐞𝐫 𝐗"
                 credit_url = "https://t.me/Inter_X_Admin_Bot"
             else:
                 if text.startswith('[') and '][' in text and text.endswith(']'):
