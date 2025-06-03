@@ -31,7 +31,7 @@ async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
         file_path = f"{user_id}_file.txt"
         await file.download_to_drive(file_path)
         with open(file_path, 'r', encoding='utf-8') as f:
-            lines = [line for line in f if ':' in line]
+            lines = [line.strip() for line in f if ':' in line]
         total_messages = len(lines)
         if total_messages == 0:
             await update.message.reply_text("No valid messages found.")
@@ -81,19 +81,27 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     await update.message.reply_text("Invalid! Use [Name][URL].")
                     return
             await update.message.reply_text(f"🎯 Target batch {info['batch_name']}")
+
+            # Start sending messages
             for line in info['lines'][info['start_index']:]:
                 try:
-                    title, url = line.strip().rsplit(":", 1)
+                    parts = line.rsplit(":", 1)
+                    if len(parts) != 2:
+                        continue  # Skip if invalid
+                    title = parts[0].strip()  # Clean title
                     cname, curl = info['credit']
+
                     msg = f"""📝<b>Title Name ➤</b> {title}
 
 📚<b>Batch Name ➤</b> {info['batch_name']}
 
 📥 <b>Extracted By ➤</b> <a href="{curl}">{cname}</a>"""
+
                     await update.message.reply_text(msg, parse_mode=ParseMode.HTML)
                     await asyncio.sleep(random.uniform(2, 3))
                 except Exception as e:
                     logging.error(f"Send error: {e}")
+
             await update.message.reply_text("✅ All messages sent successfully.")
             os.remove(info['file_path'])
             del user_data[user_id]
