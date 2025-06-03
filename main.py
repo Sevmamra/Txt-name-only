@@ -9,7 +9,7 @@ import logging
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "7772549891:AAH2C72g_3wiI8HmgY14BgeIyLtHK1ha6GI")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "7772549891:AAELxnOZOULgIAPdZscAP8nVkxUzifZa6ac")
 user_data = {}
 app = ApplicationBuilder().token(BOT_TOKEN).build()
 
@@ -82,13 +82,12 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     return
             await update.message.reply_text(f"🎯 Target batch {info['batch_name']}")
 
-            # Start sending messages
             for line in info['lines'][info['start_index']:]:
                 try:
                     if 'http' not in line:
                         continue
                     idx = line.index("http")
-                    title = line[:idx].strip()
+                    title = line[:idx].strip().rstrip(":")
                     cname, curl = info['credit']
 
                     msg = f"""📝<b>Title Name ➤</b> {title}
