@@ -9,7 +9,7 @@ import logging
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "7772549891:AAGDgrLy4GAa17gr2-4xa9pxWVEj8WEzrJg")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "7772549891:AAH2C72g_3wiI8HmgY14BgeIyLtHK1ha6GI")
 user_data = {}
 app = ApplicationBuilder().token(BOT_TOKEN).build()
 
@@ -31,7 +31,7 @@ async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
         file_path = f"{user_id}_file.txt"
         await file.download_to_drive(file_path)
         with open(file_path, 'r', encoding='utf-8') as f:
-            lines = [line.strip() for line in f if ':' in line]
+            lines = [line.strip() for line in f if 'http' in line]
         total_messages = len(lines)
         if total_messages == 0:
             await update.message.reply_text("No valid messages found.")
@@ -85,10 +85,10 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             # Start sending messages
             for line in info['lines'][info['start_index']:]:
                 try:
-                    parts = line.rsplit(":", 1)
-                    if len(parts) != 2:
-                        continue  # Skip if invalid
-                    title = parts[0].strip()  # Clean title
+                    if 'http' not in line:
+                        continue
+                    idx = line.index("http")
+                    title = line[:idx].strip()
                     cname, curl = info['credit']
 
                     msg = f"""📝<b>Title Name ➤</b> {title}
